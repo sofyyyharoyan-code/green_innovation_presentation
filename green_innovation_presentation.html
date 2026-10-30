@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="hy" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Կանաչ Նորարարությունների Սոցիալ-Տնտեսական Արդյունավետությունը ՀՀ-ում</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              900: '#064e3b',
+            },
+            darkbg: '#0b1120',
+            darkcard: '#1e293b',
+            darkborder: '#334155'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #10b981;
+      border-radius: 3px;
+    }
+    
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .light .glass-panel {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* Light mode custom overrides */
+    .light body {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .light .text-white {
+      color: #0f172a !important;
+    }
+    .light .bg-slate-800 {
+      background-color: #e2e8f0 !important;
+    }
+    .light .bg-slate-900 {
+      background-color: #ffffff !important;
+    }
+    .light .border-slate-700, .light .border-slate-800 {
+      border-color: #cbd5e1 !important;
+    }
+    .light .text-slate-300, .light .text-slate-200 {
+      color: #334155 !important;
+    }
+
+    /* Slide Entrance Animations */
+    .slide-enter {
+      animation: slideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Drawer Animation */
+    .drawer-animate {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    }
+
+    /* Pulse & glow interactive elements */
+    .glow-effect {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-darkbg text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP APP HEADER & NAVIGATION BAR -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-slate-900/90 border-b border-slate-800 backdrop-blur-md px-4 py-2.5 flex items-center justify-between text-sm shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="bg-gradient-to-tr from-brand-600 to-teal-400 p-2 rounded-xl text-white shadow-md shadow-brand-500/20">
+        <i class="fa-solid fa-leaf text-base animate-bounce"></i>
+      </div>
+      <div>
+        <h1 class="font-bold text-white tracking-wide text-xs md:text-sm flex items-center gap-2">
+          <span>ՀՊՏՀ ԳՄ - 2026</span>
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-semibold border border-brand-500/30">Հետազոտական Զեկույց</span>
+        </h1>
+        <p class="text-xs text-slate-400 truncate max-w-xs md:max-w-md">Կանաչ Նորարարությունների Սոցիալ-Տնտեսական Արդյունավետությունը ՀՀ-ում</p>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="hidden md:flex items-center space-x-3">
+      <span class="text-xs text-slate-400">Էջ <span id="current-slide-num" class="text-brand-400 font-bold text-sm">1</span> / <span id="total-slides-num">22</span></span>
+      <div class="w-36 bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+        <div id="top-progress-bar" class="bg-gradient-to-r from-brand-500 to-emerald-400 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center space-x-2">
+      <!-- Toggle Speaker Notes Drawer Button -->
+      <button id="toggle-notes-btn" onclick="toggleNotesDrawer()" title="Զեկույցի Տեքստ / Speaker Notes" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-400 border border-emerald-500/40 hover:border-emerald-400 transition-all font-semibold text-xs shadow-md">
+        <i class="fa-solid fa-comment-dots text-sm animate-pulse"></i>
+        <span class="hidden sm:inline">Զեկույցի Տեքստ</span>
+      </button>
+
+      <!-- Slide Picker Grid Trigger -->
+      <button onclick="toggleSlideGrid()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition-all text-xs flex items-center gap-1.5" title="Էջերի Ցանկ">
+        <i class="fa-solid fa-border-all"></i>
+        <span class="hidden sm:inline">Էջեր</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 transition-all" title="Մութ / Լույս Ռեժիմ">
+        <i id="theme-icon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN PRESENTATION SLIDE CONTAINER -->
+  <main class="flex-1 pt-16 pb-20 px-3 md:px-8 max-w-7xl mx-auto w-full flex items-center justify-center relative">
+    <div id="slide-viewport" class="w-full h-full min-h-[82vh] flex items-center justify-center my-auto">
+      <!-- Dynamic Slide Content Rendered Here -->
+    </div>
+  </main>
+
+  <!-- BOTTOM CONTROL BAR -->
+  <footer class="fixed bottom-0 left-0 right-0 z-30 bg-slate-900/90 border-t border-slate-800 backdrop-blur-md px-4 py-3 flex items-center justify-between text-xs sm:text-sm">
+    <div class="flex items-center space-x-2 text-slate-400">
+      <i class="fa-regular fa-keyboard text-brand-400 hidden sm:inline"></i>
+      <span class="hidden sm:inline text-xs">Նավիգացիա՝ <b>← / →</b> Ստեղներով</span>
+    </div>
+
+    <div class="flex items-center space-x-3">
+      <button onclick="prevSlide()" id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+        <i class="fa-solid fa-chevron-left text-xs"></i>
+        <span>Նախորդ</span>
+      </button>
+
+      <span class="md:hidden text-xs font-semibold text-brand-400"><span id="mobile-slide-num">1</span> / 22</span>
+
+      <button onclick="nextSlide()" id="next-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-emerald-500 hover:from-brand-500 hover:to-emerald-400 text-white font-semibold shadow-md shadow-brand-600/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+        <span>Հաջորդ</span>
+        <i class="fa-solid fa-chevron-right text-xs"></i>
+      </button>
+    </div>
+
+    <div class="text-xs text-slate-400 hidden md:block">
+      Ուսանող՝ <b>Սոֆյա Հարոյան</b> | Ղեկավար՝ <b>Մարիամ Հարությունյան</b>
+    </div>
+  </footer>
+
+  <!-- FLOATING SPEAKER NOTES DRAWER -->
+  <div id="speaker-notes-drawer" class="fixed right-0 top-14 bottom-14 w-full sm:w-[500px] lg:w-[560px] z-50 glass-panel shadow-2xl border-l border-brand-500/40 transform translate-x-full drawer-animate flex flex-col p-0 overflow-hidden">
+    <!-- Drawer Header -->
+    <div class="px-5 py-3.5 bg-slate-900/95 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="p-2 rounded-xl bg-brand-500/20 text-brand-400">
+          <i class="fa-solid fa-microphone-lines text-base"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm text-white flex items-center gap-2">
+            Զեկույցի Մանրամասն Տեքստ
+          </h3>
+          <p class="text-[11px] text-emerald-400">Էջ <span id="notes-slide-num" class="font-bold">1</span> - Խոսքի ամբողջական բովանդակություն</p>
+        </div>
+      </div>
+      <button onclick="toggleNotesDrawer()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Body -->
+    <div id="speaker-notes-content" class="flex-1 p-5 overflow-y-auto text-slate-200 text-xs sm:text-sm leading-relaxed space-y-3 font-normal">
+      <!-- Loaded dynamically per slide -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="px-5 py-2.5 bg-slate-900/80 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+      <span><i class="fa-solid fa-circle-info text-brand-400 mr-1"></i> Ամբողջական մեկնաբանությունն առանց կրճատումների</span>
+      <button onclick="copyNotesToClipboard()" class="hover:text-brand-400 transition-colors flex items-center gap-1 font-semibold">
+        <i class="fa-regular fa-copy"></i>
+        <span>Պատճենել</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SLIDE GRID NAVIGATION MODAL -->
+  <div id="slide-grid-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="font-bold text-base text-white flex items-center gap-2">
+          <i class="fa-solid fa-grid-2 text-brand-400"></i>
+          <span>Սլայդների Արագ Նավիգացիա (22 Էջ)</span>
+        </h3>
+        <button onclick="toggleSlideGrid()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div id="slide-grid-container" class="p-6 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT SLIDE DATA & LOGIC -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 22;
+    let isNotesOpen = false;
+
+    // COMPLETE SLIDES DATA & DETAILED SCRIPT
+    const slidesData = [
+      // SLIDE 1
+      {
+        id: 1,
+        title: "ԿԱՆԱՉ ՆՈՐԱՐԱՐՈՒԹՅՈՒՆՆԵՐԻ ՍՈՑԻԱԼ-ՏՆՏԵՍԱԿԱՆ ԱՐԴՅՈՒՆԱՎԵՏՈՒԹՅՈՒՆԸ ՀԱՅԱՍՏԱՆՈՒՄ",
+        subtitle: "(2020–2025 թթ. եռամսյակային տվյալների հիման վրա)",
+        type: "cover",
+        content: `
+          <div class="text-center max-w-3xl mx-auto space-y-6 slide-enter">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-xs font-semibold uppercase tracking-wider">
+              <i class="fa-solid fa-graduation-cap"></i> ՀՊՏՀ ԳՄ – 2026 | Մագիստրոսական / Ավարտական Հետազոտություն
+            </div>
+            
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              ԿԱՆԱՉ ՆՈՐԱՐԱՐՈՒԹՅՈՒՆՆԵՐԻ ՍՈՑԻԱԼ-ՏՆՏԵՍԱԿԱՆ ԱՐԴՅՈՒՆԱՎԵՏՈՒԹՅՈՒՆԸ ՀՀ-ՈՒՄ
+            </h1>
+            
+            <p class="text-base sm:text-xl text-emerald-400/90 font-medium italic">
+              Էմպիրիկ հետազոտություն IBM SPSS Statistics ծրագրային համակարգով
+            </p>
+
+            <div class="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700/80 shadow-md">
+                <span class="text-[11px] text-slate-400 uppercase tracking-wider block font-semibold mb-1">Առարկա & Բաժին</span>
+                <p class="font-bold text-white text-sm">Նորամուծությունների կառավարում</p>
+                <p class="text-xs text-slate-300">Կառավարում առկա 4</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700/80 shadow-md">
+                <span class="text-[11px] text-slate-400 uppercase tracking-wider block font-semibold mb-1">Հեղինակներ</span>
+                <p class="text-xs text-slate-300"><span class="text-slate-400">Դասախոս՝</span> <b class="text-white">Մարիամ Հարությունյան</b></p>
+                <p class="text-xs text-slate-300"><span class="text-slate-400">Ուսանող՝</span> <b class="text-brand-400">Սոֆյա Հարոյան</b></p>
+              </div>
+            </div>
+
+            <div class="pt-2 flex items-center justify-center gap-3">
+              <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm transition-all shadow-lg shadow-brand-500/25 flex items-center gap-2">
+                <span>Սկսել Ներկայացումը</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Այս հետազոտությունը նվիրված է Հայաստանի Հանրապետության էներգետիկ համակարգում կանաչ նորարարությունների՝ մասնավորապես արևային ֆոտովոլտային տեխնոլոգիաների, Net-metering ինքնավար համակարգերի և վերականգնվող էներգետիկայի սոցիալ-տնտեսական արդյունավետության էմպիրիկ գնահատմանը:</p>
+          <p>Աշխատանքի հիմքում ընկած է 2020 թվականի առաջին եռամսյակից մինչև 2025 թվականի չորրորդ եռամսյակն ընկած 24 եռամսյակների ամբողջական պաշտոնական տվյալների բազան:</p>
+          <p>Հետազոտությունն իրականացվել է IBM SPSS Statistics ծրագրային փաթեթի միջոցով, որտեղ կիրառվել են 5 հիմնական էկոնոմետրիկ և վիճակագրական մոդելներ՝ բացահայտելու կանաչ էներգիայի ազդեցությունը էներգահամակարգի ֆինանսական եկամուտների և բնակչության սպառման վրա:</p>
+        `
+      },
+
+      // SLIDE 2
+      {
+        id: 2,
+        title: "2․1. ՀԵՏԱԶՈՏՈՒԹՅԱՆ ԱՐԴԻԱԿԱՆՈՒԹՅՈՒՆԸ ԵՎ ՀԱՄԱՏԵՔՍՏԸ",
+        subtitle: "Էներգետիկ անցումը և կանաչ տեխնոլոգիաների բումը ՀՀ-ում",
+        type: "content",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-5 slide-enter">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-lg">
+                  <i class="fa-solid fa-leaf"></i>
+                </div>
+                <h4 class="font-bold text-white text-base">Կլիմայական Պարտավորություններ</h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  ՀՀ ռազմավարական նպատակն է մինչև 2030թ. արևային էներգիայի արտադրության մասնաբաժինը հասցնել առնվազն 15%-ի, իսկ վերականգնվող էներգիայի ընդհանուր կշիռը՝ 30%-ի:
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                  <i class="fa-solid fa-solar-panel"></i>
+                </div>
+                <h4 class="font-bold text-white text-base">Net-Metering Բումը</h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  2020-2025թթ. դիտվել է ինքնավար արտադրողների (տանիքային արևային կայաններ) աննախադեպ աճ, ինչը փոխել է էլեկտրաէներգիայի ավանդական ցանցի հոսքերը:
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-lg">
+                  <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h4 class="font-bold text-white text-base">Տնտեսական Հավասարակշռություն</h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Անհրաժեշտ է գնահատել, թե արդյոք կանաչ էներգիայի աճը նվազեցնում է ավանդական էներգահամակարգի առևտրային եկամուտները և ինչպես է ազդում սպառման վրա:
+                </p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-brand-500/10 border border-brand-500/30 text-xs text-slate-200">
+              <i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>
+              <b>Գիտական Նորույթը․</b> 2020–2025 թթ. 24 եռամսյակային տվյալների հիման վրա առաջին անգամ իրականացվել է կանաչ էներգիայի մասնաբաժնի, ֆինանսական եկամուտների և սեզոնայնության բազմագործոն էկոնոմետրիկ մոդելավորում:
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Հետազոտության արդիականությունը պայմանավորված է Հայաստանի էներգետիկ ոլորտում ընթացող արմատական կառուցվածքային փոփոխություններով:</p>
+          <p>2020-2025 թվականներին պետական աջակցության և Net-metering ինքնավար համակարգերի ներդրման շնորհիվ արձանագրվել է արևային էներգետիկայի թռիչքաձև աճ:</p>
+          <p>Սակայն, այս դրական էկոլոգիական միտումին զուգահեռ, առաջանում են լուրջ տնտեսագիտական հարցադրումներ. ինչպե՞ս է կանաչ էներգիայի մասնաբաժնի ավելացումն ազդում էներգահամակարգի առևտրային եկամուտների վրա, առկա՞ է արդյոք սեզոնային դիսբալանս, և որքանո՞վ է կանխատեսելի վերականգնվող էներգիայի արտադրության դինամիկան:</p>
+        `
+      },
+
+      // SLIDE 3
+      {
+        id: 3,
+        title: "2․2. ՀԵՏԱԶՈՏՈՒԹՅԱՆ ՆՊԱՏԱԿԸ, ՀԱՐՑԸ ԵՎ ԽՆԴԻՐՆԵՐԸ",
+        subtitle: "Գիտական հետազոտության առանցքային շրջանակը",
+        type: "content",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-5 slide-enter">
+            <div class="p-5 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-800/90 border border-brand-500/40 shadow-lg space-y-2">
+              <h4 class="text-sm font-bold text-brand-400 flex items-center gap-2 uppercase tracking-wider">
+                <i class="fa-solid fa-bullseye"></i> Հետազոտության Նպատակը
+              </h4>
+              <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                Գնահատել կանաչ (վերականգնվող) էներգետիկայի զարգացման սոցիալ-տնտեսական արդյունավետությունը Հայաստանի Հանրապետությունում 2020–2025 թթ. եռամսյակային տվյալների հիման վրա՝ բացահայտելով կանաչ էներգիայի մասնաբաժնի դինամիկան, սեզոնային օրինաչափությունները և դրա կապը էներգահամակարգի առևտրային եկամուտների ու բնակչության էլեկտրաէներգիայի սպառման հետ։
+              </p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-800/80 border border-emerald-500/30 space-y-2">
+              <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wider">
+                <i class="fa-solid fa-circle-question"></i> Հետազոտական Հարցը
+              </h4>
+              <p class="text-xs sm:text-sm text-slate-200 italic">
+                «Ինչպե՞ս է փոխվել կանաչ էներգիայի մասնաբաժինը ՀՀ էներգահամակարգում 2020–2025 թվականներին, և ինչպիսի՞ կապ ունի այն էներգահամակարգի առևտրային եկամտի, ժամանակային միտման և բնակչության էլեկտրաէներգիայի սպառման հետ»։
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+              <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700">
+                <b>1. Տվյալների բազա․</b> 24 եռամսյակ, 20 փոփոխական (SPSS .sav):
+              </div>
+              <div class="p-3 rounded-xl bg-slate-800/50 border border-slate-700">
+                <b>2. Էկոնոմետրիկ մոդելներ․</b> Ռեգրեսիա, ANOVA, ARIMA(1,1,1):
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Հետազոտության նպատակն է էմպիրիկ վիճակագրական մեթոդներով չափել կանաչ էներգետիկայի զարգացման սոցիալ-տնտեսական արդյունավետությունը Հայաստանում:</p>
+          <p>Այս նպատակին հասնելու համար ձևակերպվել է առանցքային հետազոտական հարցը, որն ուսումնասիրում է կանաչ էներգիայի մասնաբաժնի փոփոխությունը 2020-2025 թվականների ընթացքում և դրա փոխկապվածությունը էներգահամակարգի առևտրային եկամուտների ու տնային տնտեսությունների սպառման հետ:</p>
+          <p>Աշխատանքում դրված են 5 կոնկրետ խնդիրներ՝ սկսած SPSS տվյալների բազայի ձևավորումից մինչև ARIMA ժամանակային շարքերով 2026 թվականի կանխատեսումների իրականացումը:</p>
+        `
+      },
+
+      // SLIDE 4
+      {
+        id: 4,
+        title: "3․ ՀԵՏԱԶՈՏՈՒԹՅԱՆ ԳԻՏԱԿԱՆ ՎԱՐԿԱԾՆԵՐԸ (H1 – H5)",
+        subtitle: "Էմպիրիկ ստուգման ենթակա 5 հիպոթեզները",
+        type: "content",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-3 slide-enter">
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-bold text-xs shrink-0">H1</span>
+                <p class="text-xs sm:text-sm text-slate-200">Կանաչ էներգիայի մասնաբաժնի և էներգահամակարգի առևտրային եկամտի միջև գոյություն ունի վիճակագրորեն նշանակալի կապ (Պիրսոնի կորելյացիա)։</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-bold text-xs shrink-0">H2</span>
+                <p class="text-xs sm:text-sm text-slate-200">Կանաչ էներգիայի մասնաբաժինը 2020–2025 թթ. ունի վիճակագրորեն նշանակալի աճող ժամանակային միտում (կորելյացիա Time_Index-ի հետ)։</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-bold text-xs shrink-0">H3</span>
+                <p class="text-xs sm:text-sm text-slate-200">Կանաչ մասնաբաժինը, ժամանակային միտումը և բնակչության սպառումը միասին վիճակագրորեն նշանակալիորեն բացատրում են եկամտի տատանումները (Բազմակի ռեգրեսիա)։</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-bold text-xs shrink-0">H4</span>
+                <p class="text-xs sm:text-sm text-slate-200">Կանաչ մասնաբաժինը և վերականգնվող էներգիայի արտադրությունը վիճակագրորեն նշանակալիորեն տարբերվում են եռամսյակների միջև (ANOVA սեզոնայնություն)։</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 rounded-lg bg-brand-500/20 text-brand-400 font-bold text-xs shrink-0">H5</span>
+                <p class="text-xs sm:text-sm text-slate-200">Վերականգնվող էներգիայի արտադրության ժամանակային շարքը կարող է ճշգրիտ կանխատեսվել ARIMA(1,1,1) մոդելով 2026 թ. համար։</p>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Հետազոտության վերլուծական կառուցվածքին համապատասխան՝ ձևակերպվել են 5 գիտական վարկածներ, որոնցից յուրաքանչյուրի համար զրոյական վարկածը (H0) ենթադրում է կապի կամ տարբերության բացակայություն:</p>
+          <p>Առաջին երկու վարկածները ստուգում են զույգային կորելյացիաները, H3 վարկածը գնահատում է բազմագործոն ռեգրեսիոն մոդելի բացատրողական ուժը, H4 վարկածն ուսումնասիրում է սեզոնայնությունը եռամսյակների միջև, իսկ H5 վարկածը թեստավորում է ARIMA մոդելի ճշգրտությունը կանխատեսումների համար:</p>
+        `
+      },
+
+      // SLIDE 5
+      {
+        id: 5,
+        title: "4․1. ՏՎՅԱԼՆԵՐԻ ԲԱԶԱՆ ԵՎ ՀԱՇՎԵԿՇՌԱՅԻՆ ԱՌՆՉՈՒԹՅՈՒՆՆԵՐԸ",
+        subtitle: "2020–2025 թթ. 24 եռամսյակների պաշտոնական տվյալների բազան (ՀԾԿՀ)",
+        type: "content",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
+              <h4 class="text-xs font-bold text-brand-400 uppercase tracking-wider">Տվյալների Բազայի Հաշվեկշռային Բանաձևերը</h4>
+              <div class="font-mono text-xs space-y-2 text-slate-200 bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+                <p><span class="text-emerald-400">Total_Renewable_GWh</span> = Hydro_Small + Solar_Commercial + Solar_Masrik + Autonomous_Delivered + Autonomous_SelfConsumed + Wind</p>
+                <p><span class="text-teal-400">Total_Generation_GWh</span> = Nuclear_GWh + Thermal_GWh + Hydro_Large_GWh + Total_Renewable_GWh</p>
+                <p><span class="text-amber-400">Green_Share_Pct</span> = (Total_Renewable_GWh / Total_Generation_GWh) × 100</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+              <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+                <span class="text-2xl font-black text-brand-400 block">24</span>
+                <span class="text-[11px] text-slate-400">Դիտարկում (2020Q1–2025Q4)</span>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+                <span class="text-2xl font-black text-emerald-400 block">20</span>
+                <span class="text-[11px] text-slate-400">Փոփոխական (Scale, Ordinal)</span>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
+                <span class="text-2xl font-black text-teal-400 block">100%</span>
+                <span class="text-[11px] text-slate-400">Պաշտոնական Տվյալներ (ՀԾԿՀ)</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Վերլուծության տվյալների բազան (SPSS_Dataset_2020_2025.sav) պարունակում է 24 դիտարկում՝ 2020–2025 թթ. յուրաքանչյուր եռամսյակի համար մեկական տող, և 20 փոփոխական:</p>
+          <p>Տվյալների բազայի ներքին կառուցվածքը խիստ համապատասխանում է ՀՀ էներգետիկ համակարգի հաշվեկշռային առնչություններին:</p>
+          <p>Վերականգնվող էներգիայի ընդհանուր արտադրությունը ստացվում է փոքր ՀԷԿ-երի, առևտրային արևային կայանների, «Մասրիկ-1»-ի, ինքնավար արտադրողների Net-metering ինքնասպառման և հողմակայանների գումարից, իսկ կանաչ մասնաբաժինը հաշվարկվում է որպես դրա հարաբերակցություն համակարգի ընդհանուր արտադրությանը:</p>
+        `
+      },
+
+      // SLIDE 6
+      {
+        id: 6,
+        title: "ԱՂՅՈՒՍԱԿ 1․ ՏՎՅԱԼՆԵՐԻ ԲԱԶԱՅԻ ՓՈՓՈԽԱԿԱՆՆԵՐԻ ՑԱՆԿԸ",
+        subtitle: "20 էկոնոմետրիկ փոփոխականների չափման մակարդակները SPSS-ում",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700 max-h-[60vh] overflow-y-auto">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="text-xs text-brand-400 uppercase bg-slate-800/90 sticky top-0 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">Փոփոխական</th>
+                    <th class="py-2.5 px-3">Նկարագրություն</th>
+                    <th class="py-2.5 px-3">Չափման մակարդակ</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60 font-mono">
+                  <tr><td class="text-brand-300">Year</td><td class="font-sans">Դիտարկման տարի (2020–2025)</td><td>Nominal</td></tr>
+                  <tr><td class="text-brand-300">Quarter</td><td class="font-sans">Տարվա եռամսյակ (1–4)</td><td>Nominal</td></tr>
+                  <tr><td class="text-brand-300">Quarter_Code</td><td class="font-sans">Տարի-եռամսյակ համակցված կոդ (YYYYQ)</td><td>Ordinal</td></tr>
+                  <tr><td class="text-brand-300">Time_Index</td><td class="font-sans">Հաջորդական ժամանակային միտման ինդեքս (1–24)</td><td>Ordinal</td></tr>
+                  <tr><td class="text-brand-300">Nuclear_GWh</td><td class="font-sans">Ատոմային էլեկտրակայանի (ՀԱԷԿ) արտադրություն, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Thermal_GWh</td><td class="font-sans">Ջերմային էլեկտրակայանների արտադրություն, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Hydro_Large_GWh</td><td class="font-sans">Խոշոր ՀԷԿ-երի կասկադների արտադրություն, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Hydro_Small_GWh</td><td class="font-sans">Փոքր ՀԷԿ-երի արտադրություն, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Solar_Commercial_GWh</td><td class="font-sans">Առևտրային արևային ֆոտովոլտային կայաններ, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Autonomous_SelfConsumed</td><td class="font-sans">Net-metering ինքնասպառում, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Total_Renewable_GWh</td><td class="font-sans">Վերականգնվող էներգիայի ընդհանուր արտադրություն, ԳՎտժ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Green_Share_Pct</td><td class="font-sans">Կանաչ էներգիայի մասնաբաժինը ընդհանուր արտադրության մեջ, %</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Total_Revenue_AMD_Mln</td><td class="font-sans">Էներգահամակարգի ընդհանուր առևտրային եկամուտ, մլն դրամ</td><td>Scale</td></tr>
+                  <tr><td class="text-brand-300">Residential_Consumption</td><td class="font-sans">Տնային տնտեսությունների էլեկտրաէներգիայի սպառում, ԳՎտժ</td><td>Scale</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Աղյուսակ 1-ում ներկայացված է տվյալների բազայի 20 փոփոխականների ամբողջական կառուցվածքը:</p>
+          <p>Տվյալները ներմուծվել են CSV ձևաչափից SPSS-ի GET DATA հրամանով, փոփոխականներին տրվել են նկարագրական պիտակներ (VARIABLE LABELS) և չափման մակարդակներ (VARIABLE LEVEL):</p>
+          <p>Scale մակարդակի քանակական փոփոխականներն ընդգրկում են ինչպես արտադրության ծավալները (ԳՎտժ), այնպես էլ ֆինանսական (մլն դրամ) և տոկոսային ցուցանիշները:</p>
+        `
+      },
+
+      // SLIDE 7
+      {
+        id: 7,
+        title: "4․2. ՎԵՐԼՈՒԾՈՒԹՅԱՆ ԸՆԹԱՑԱԿԱՐԳԸ ԵՎ 5 ՄՈԴԵԼՆԵՐԸ",
+        subtitle: "Աղյուսակ 2. IBM SPSS Statistics 27 վերլուծական գործիքակազմը",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="text-xs text-brand-400 uppercase bg-slate-800 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">№</th>
+                    <th class="py-2.5 px-3">Մոդել</th>
+                    <th class="py-2.5 px-3">SPSS ընթացակարգ</th>
+                    <th class="py-2.5 px-3">Փոփոխականներ</th>
+                    <th class="py-2.5 px-3">Նպատակը</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                  <tr>
+                    <td class="font-bold text-brand-400">1</td>
+                    <td class="font-semibold">Նկարագրական վիճակագրություն</td>
+                    <td>DESCRIPTIVES, FREQUENCIES</td>
+                    <td>Generation, Green_Share, Revenue</td>
+                    <td>Բաշխման բնութագրերի և ասիմետրիայի գնահատում</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-400">2</td>
+                    <td class="font-semibold">Պիրսոնի կորելյացիա</td>
+                    <td>CORRELATIONS, GRAPH SCATTERPLOT</td>
+                    <td>Green_Share, Revenue, Time_Index, Res_Cons</td>
+                    <td>Փոխկապվածության ուժի և ուղղության որոշում</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-400">3</td>
+                    <td class="font-semibold">Բազմակի գծային ռեգրեսիա</td>
+                    <td>REGRESSION (ENTER; COLLIN)</td>
+                    <td>Կախյալ՝ Revenue; Անկախ՝ Green_Share, Time, Cons</td>
+                    <td>Եկամտի վրա գործոնների համատեղ ազդեցության գնահատում</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-400">4</td>
+                    <td class="font-semibold">Միակողմանի ANOVA</td>
+                    <td>ONEWAY (TUKEY α=.05, HOMOGENEITY)</td>
+                    <td>Կախյալ՝ Green_Share; Գործոն՝ Quarter</td>
+                    <td>Սեզոնային տարբերությունների ստուգում</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-400">5</td>
+                    <td class="font-semibold">ARIMA(1,1,1) կանխատեսում</td>
+                    <td>TSMODEL</td>
+                    <td>Total_Renewable_GWh</td>
+                    <td>Վերականգնվող էներգիայի 2026 թ. կանխատեսում</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Աղյուսակ 2-ում ներկայացված է հետազոտության մեջ կիրառված 5 վիճակագրական մոդելների ամփոփագիրը:</p>
+          <p>Վերլուծությունն իրականացվել է մեկ համապարփակ սինտաքս ֆայլով (SPSS_Syntax_Green_Energy_2020_2025.sps), որը ծրագրավորում է տվյալների ներմուծումից մինչև ARIMA կանխատեսումները:</p>
+          <p>Յուրաքանչյուր մոդել լուծում է որոշակի հետազոտական խնդիր՝ ապահովելով արդյունքների վիճակագրորեն հիմնավորված լինելը:</p>
+        `
+      },
+
+      // SLIDE 8
+      {
+        id: 8,
+        title: "5․1. ՄՈԴԵԼ 1․ ՆԿԱՐԱԳՐԱԿԱՆ ՎԻՃԱԿԱԳՐՈՒԹՅՈՒՆ (DESCRIPTIVES)",
+        subtitle: "Աղյուսակ 3. Descriptive Statistics (N = 24 եռամսյակ, 2020–2025 թթ.)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="text-xs text-brand-400 uppercase bg-slate-800 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">Փոփոխական</th>
+                    <th class="py-2.5 px-3">N</th>
+                    <th class="py-2.5 px-3">Minimum</th>
+                    <th class="py-2.5 px-3">Maximum</th>
+                    <th class="py-2.5 px-3">Mean</th>
+                    <th class="py-2.5 px-3">Std. Deviation</th>
+                    <th class="py-2.5 px-3">Skewness</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60 font-mono">
+                  <tr>
+                    <td class="font-sans font-semibold">Total_Generation_GWh</td>
+                    <td>24</td>
+                    <td>1568.60</td>
+                    <td>3192.94</td>
+                    <td>2118.36</td>
+                    <td>369.874</td>
+                    <td class="text-amber-400">1.057</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-semibold">Total_Renewable_GWh</td>
+                    <td>24</td>
+                    <td>148.60</td>
+                    <td>927.95</td>
+                    <td>395.97</td>
+                    <td>232.420</td>
+                    <td class="text-amber-400">0.976</td>
+                  </tr>
+                  <tr class="bg-brand-500/10">
+                    <td class="font-sans font-bold text-brand-300">Green_Share_Pct (%)</td>
+                    <td class="font-bold">24</td>
+                    <td class="font-bold">7.10</td>
+                    <td class="font-bold">40.65</td>
+                    <td class="font-bold text-emerald-400">18.57</td>
+                    <td class="font-bold">9.974</td>
+                    <td class="text-amber-400 font-bold">0.773</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-semibold">Total_Revenue_AMD_Mln</td>
+                    <td>24</td>
+                    <td>27810.50</td>
+                    <td>49337.90</td>
+                    <td>36650.52</td>
+                    <td>5464.608</td>
+                    <td class="text-emerald-400">0.386</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-semibold">Residential_Consumption</td>
+                    <td>24</td>
+                    <td>428.70</td>
+                    <td>736.62</td>
+                    <td>548.50</td>
+                    <td>78.629</td>
+                    <td class="text-emerald-400">0.359</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-xs text-slate-400 italic">Skewness-ի ստանդարտ սխալը (Std. Error) բոլոր փոփոխականների համար 0.472 է։</p>
+          </div>
+        `,
+        notes: `
+          <p>Աղյուսակ 3-ից երևում է, որ 2020–2025 թթ. եռամսյակային ընդհանուր արտադրությունը միջինը կազմել է 2118.36 ԳՎտժ (ստանդարտ շեղում՝ 369.87):</p>
+          <p>Վերականգնվող էներգիայի արտադրությունը միջինը 395.97 ԳՎտժ է, նվազագույնը՝ 148.60, առավելագույնը՝ 927.95 ԳՎտժ, այսինքն՝ ծավալի առավելագույն արժեքը մոտ 6 անգամ գերազանցում է նվազագույնը:</p>
+          <p>Կանաչ էներգիայի մասնաբաժինը միջինում 18.57% է (ստանդարտ շեղում՝ 9.97)՝ 7.10%-ից (2020թ. 1-ին եռամսյակ) մինչև 40.65% (2025թ. 2-րդ եռամսյակ): Էներգահամակարգի առևտրային եկամուտը միջինը 36,650.52 մլն դրամ է, իսկ տնային տնտեսությունների սպառումը՝ 548.50 ԳՎտժ:</p>
+          <p>Բոլոր ասիմետրիայի (Skewness) գործակիցները դրական են, ինչը վկայում է դեպի աջ ձգված բաշխումների մասին:</p>
+        `
+      },
+
+      // SLIDE 9
+      {
+        id: 9,
+        title: "ՆԿԱՐ 1․ ԿԱՆԱՉ ՄԱՍՆԱԲԱԺՆԻ (GREEN_SHARE_PCT) ԲԱՇԽՄԱՆ ՀԻՍՏՈԳՐԱՄ",
+        subtitle: "Բաշխման ասիմետրիա և նորմալ կոր (Mean = 18.57, Std. Dev. = 9.974, N = 24)",
+        type: "chart",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+              <svg viewBox="0 0 600 230" class="w-full h-56">
+                <line x1="50" y1="190" x2="550" y2="190" stroke="#475569" stroke-width="1.5" />
+                <line x1="50" y1="140" x2="550" y2="140" stroke="#334155" stroke-dasharray="4" />
+                <line x1="50" y1="90" x2="550" y2="90" stroke="#334155" stroke-dasharray="4" />
+
+                <!-- Histogram Bars -->
+                <rect x="70" y="65" width="55" height="125" fill="#3b82f6" opacity="0.8" rx="3" />
+                <rect x="135" y="40" width="55" height="150" fill="#3b82f6" opacity="0.85" rx="3" />
+                <rect x="200" y="90" width="55" height="100" fill="#3b82f6" opacity="0.8" rx="3" />
+                <rect x="265" y="140" width="55" height="50" fill="#3b82f6" opacity="0.75" rx="3" />
+                <rect x="330" y="115" width="55" height="75" fill="#3b82f6" opacity="0.75" rx="3" />
+                <rect x="395" y="140" width="55" height="50" fill="#3b82f6" opacity="0.7" rx="3" />
+                <rect x="460" y="165" width="55" height="25" fill="#3b82f6" opacity="0.65" rx="3" />
+
+                <!-- Normal Curve Overlay -->
+                <path d="M 60 170 Q 150 35 220 65 T 380 140 T 530 185" fill="none" stroke="#10b981" stroke-width="3" />
+
+                <text x="97" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">5-10%</text>
+                <text x="162" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">10-15%</text>
+                <text x="227" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">15-20%</text>
+                <text x="292" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">20-25%</text>
+                <text x="357" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">25-30%</text>
+                <text x="422" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">30-35%</text>
+                <text x="487" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">35-40%</text>
+              </svg>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-300">
+              <p class="font-bold text-white mb-1"><i class="fa-solid fa-chart-column text-brand-400 mr-1.5"></i> Հիստոգրամի Վերլուծություն․</p>
+              <p>Դիտարկումների մեծ մասը (24-ից 15-ը) կենտրոնացած է 5–20% միջակայքում, իսկ բարձր արժեքները (30%-ից բարձր) հազվադեպ են և ձևավորում են աջ պոչը։ Skewness = 0.773 ցուցանիշը հաստատում է չափավոր աջակողմյան ասիմետրիան:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Նկար 1-ի հիստոգրամը ցույց է տալիս, որ կանաչ էներգիայի մասնաբաժնի դիտարկումների մեծ մասը (24 եռամսյակներից 15-ը) կենտրոնացած է 5-ից 20 տոկոս միջակայքում:</p>
+          <p>Բարձր արժեքները, որոնք գերազանցում են 30 տոկոսը, հազվադեպ են և ձևավորում են բաշխման աջ պոչը:</p>
+          <p>Այս պատկերը տեսանելիորեն արտացոլում է դրական ասիմետրիան (Skewness = 0.773), ինչը պայմանավորված է վերջին տարիների 2-րդ եռամսյակների արևային և հիդրոէներգիայի արտադրության պիկային ծավալներով:</p>
+        `
+      },
+
+      // SLIDE 10
+      {
+        id: 10,
+        title: "5․2. ՄՈԴԵԼ 2․ ՊԻՐՍՈՆԻ ԿՈՐԵԼՅԱՑԻՈՆ ՎԵՐԼՈՒԾՈՒԹՅՈՒՆ (CORRELATIONS)",
+        subtitle: "Աղյուսակ 5. Pearson Correlation Matrix (N = 24, Two-tailed, Pairwise)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="text-xs text-brand-400 uppercase bg-slate-800 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">Փոփոխական</th>
+                    <th class="py-2.5 px-3">Green_Share</th>
+                    <th class="py-2.5 px-3">Total_Renewable</th>
+                    <th class="py-2.5 px-3">Total_Revenue</th>
+                    <th class="py-2.5 px-3">Res_Cons</th>
+                    <th class="py-2.5 px-3">Time_Index</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60 font-mono">
+                  <tr>
+                    <td class="font-sans font-bold text-brand-300">Green_Share_Pct</td>
+                    <td class="font-bold text-slate-400">1.000</td>
+                    <td class="font-bold text-emerald-400">.922** (.000)</td>
+                    <td class="font-bold text-rose-400">-.710** (.000)</td>
+                    <td class="text-amber-400">-.475* (.019)</td>
+                    <td class="text-emerald-400">.512* (.011)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-200">Total_Renewable_GWh</td>
+                    <td class="text-emerald-400">.922**</td>
+                    <td class="text-slate-400">1.000</td>
+                    <td class="text-rose-400">-.606** (.002)</td>
+                    <td>-.256 (.227)</td>
+                    <td class="text-emerald-400">.643** (.001)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-200">Total_Revenue_AMD_Mln</td>
+                    <td class="font-bold text-rose-400">-.710**</td>
+                    <td class="text-rose-400">-.606**</td>
+                    <td class="text-slate-400">1.000</td>
+                    <td class="text-emerald-400">.410* (.047)</td>
+                    <td class="text-rose-400">-.493* (.014)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-200">Residential_Consumption</td>
+                    <td class="text-amber-400">-.475*</td>
+                    <td>-.256</td>
+                    <td class="text-emerald-400">.410*</td>
+                    <td class="text-slate-400">1.000</td>
+                    <td>.283 (.180)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-200">Time_Index</td>
+                    <td class="text-emerald-400">.512*</td>
+                    <td class="text-emerald-400">.643**</td>
+                    <td class="text-rose-400">-.493*</td>
+                    <td>.283</td>
+                    <td class="text-slate-400">1.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-[11px] text-slate-400">** Correlation is significant at the 0.01 level (2-tailed). * Significant at 0.05 level.</p>
+          </div>
+        `,
+        notes: `
+          <p>Պիրսոնի կորելյացիոն վերլուծությունը բացահայտում է մի քանի առանցքային օրինաչափություններ:</p>
+          <p>Առաջին. H1 վարկածի համաձայն՝ կանաչ էներգիայի մասնաբաժնի և էներգահամակարգի առևտրային եկամտի միջև առկա է վիճակագրորեն բարձր նշանակալիություն ունեցող ուժեղ բացասական կապ (r = -0.710, p < 0.001): Սա նշանակում է, որ կանաչ էներգիայի մասնաբաժնի աճին զուգընթաց էներգահամակարգի առևտրային եկամուտը նվազում է:</p>
+          <p>Երկրորդ. H2 վարկածի համաձայն՝ կանաչ մասնաբաժնի և ժամանակի ինդեքսի (Time_Index) միջև առկա է նշանակալի դրական կապ (r = 0.512, p = 0.011), ինչը հաստատում է 2020-2025թթ. ընթացքում կանաչ էներգիայի աճող ժամանակային միտումը:</p>
+        `
+      },
+
+      // SLIDE 11
+      {
+        id: 11,
+        title: "ՆԿԱՐ 2․ ՑՐՄԱՆ ԴԻԱԳՐԱՄ․ ԵԿԱԿՈՒՏՆ ԸՆԴԴԵՄ ԿԱՆԱՉ ՄԱՍՆԱԲԱԺՆԻ",
+        subtitle: "Total_Revenue vs Green_Share_Pct (R² Linear = 0.504)",
+        type: "chart",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+              <svg viewBox="0 0 600 230" class="w-full h-56">
+                <line x1="50" y1="20" x2="50" y2="190" stroke="#64748b" stroke-width="1.5" />
+                <line x1="50" y1="190" x2="570" y2="190" stroke="#64748b" stroke-width="1.5" />
+
+                <!-- Scatter Points -->
+                <circle cx="80" cy="50" r="4" fill="#38bdf8" />
+                <circle cx="95" cy="70" r="4" fill="#38bdf8" />
+                <circle cx="110" cy="60" r="4" fill="#38bdf8" />
+                <circle cx="130" cy="40" r="4" fill="#38bdf8" />
+                <circle cx="150" cy="80" r="4" fill="#38bdf8" />
+                <circle cx="180" cy="95" r="4" fill="#38bdf8" />
+                <circle cx="210" cy="90" r="4" fill="#38bdf8" />
+                <circle cx="240" cy="110" r="4" fill="#38bdf8" />
+                <circle cx="290" cy="115" r="4" fill="#38bdf8" />
+                <circle cx="330" cy="125" r="4" fill="#38bdf8" />
+                <circle cx="380" cy="130" r="4" fill="#38bdf8" />
+                <circle cx="430" cy="150" r="4" fill="#38bdf8" />
+                <circle cx="480" cy="160" r="4" fill="#38bdf8" />
+                <circle cx="530" cy="170" r="4" fill="#38bdf8" />
+
+                <!-- Linear Trend Line -->
+                <line x1="60" y1="45" x2="550" y2="175" stroke="#ef4444" stroke-width="2.5" />
+
+                <rect x="220" y="130" width="170" height="26" fill="#0f172a" rx="4" stroke="#475569" />
+                <text x="305" y="147" fill="#f8fafc" font-size="10" font-family="monospace" text-anchor="middle">y = 4.39E4 - 3.89E2*x</text>
+
+                <text x="310" y="212" fill="#94a3b8" font-size="11" text-anchor="middle">Share of Green Renewable Energy (%)</text>
+                <text x="15" y="105" fill="#94a3b8" font-size="10" transform="rotate(-90 15 105)" text-anchor="middle">Revenue (Mln AMD)</text>
+              </svg>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-300">
+              <p class="font-bold text-white mb-1"><i class="fa-solid fa-chart-line text-rose-400 mr-1.5"></i> Ցրման Դիագրամի Մեկնաբանություն․</p>
+              <p>Գրաֆիկը հաստատում է բացասական գծային կապը. կանաչ մասնաբաժնի բարձր արժեքներին (30% և ավելի) համապատասխանում են եկամտի ամենացածր մակարդակները՝ 27 810–31 250 մլն դրամ, իսկ ցածր մասնաբաժնի դեպքում եկամտի ցրվածությունը մեծ է։ R² Linear = 0.504:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Նկար 2-ում պատկերված ցրման դիագրամը (Scatterplot) ակնհայտ է դարձնում կանաչ էներգիայի մասնաբաժնի և էներգահամակարգի առևտրային եկամտի միջև բացասական կախվածությունը:</p>
+          <p>Գծային ռեգրեսիայի հավասարումն է՝ y = 43,900 - 389*x, որտեղ որոշման գործակիցը R² = 0.504 է:</p>
+          <p>Սա նշանակում է, որ միայն կանաչ մասնաբաժնի տատանումները բացատրում են էներգահամակարգի եկամուտների տատանումների 50.4 տոկոսը: Բարձր մասնաբաժին ունեցող եռամսյակներում եկամուտները նվազում են, քանի որ ինքնավար արտադրողները Net-metering համակարգով ցանցից էլեկտրաէներգիա չեն գնում:</p>
+        `
+      },
+
+      // SLIDE 12
+      {
+        id: 12,
+        title: "5․3. ՄՈԴԵԼ 3․ ԲԱԶՄԱԿԻ ԳԾԱՅԻՆ ՌԵԳՐԵՍԻԱՅԻ ՄՈԴԵԼԱՎՈՐՈՒՄ",
+        subtitle: "Աղյուսակ 6 (Variables Entered), Աղյուսակ 7 (Model Summary) և Աղյուսակ 8 (ANOVA)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 font-mono text-xs text-emerald-400">
+              Total_Revenue = 28211.75 - 149.47 × Green_Share - 363.38 × Time_Index + 28.73 × Res_Consumption
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <div class="p-2.5 bg-slate-800 font-bold text-xs text-brand-400 border-b border-slate-700">Model Summary (Table 7)</div>
+                <table class="w-full text-xs text-left text-slate-200 font-mono">
+                  <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                    <tr><td class="py-2 px-3 font-sans">Multiple R</td><td class="font-bold text-emerald-400">.771</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">R Square (R²)</td><td class="font-bold text-emerald-400">.595</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">Adjusted R Square</td><td class="font-bold text-brand-300">.534</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">Std. Error of Estimate</td><td>3730.666</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <div class="p-2.5 bg-slate-800 font-bold text-xs text-brand-400 border-b border-slate-700">ANOVA (Table 8)</div>
+                <table class="w-full text-xs text-left text-slate-200 font-mono">
+                  <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                    <tr><td class="py-2 px-3 font-sans">Regression Sum of Sq.</td><td>408467256.20</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">df (Regression / Residual)</td><td>3 / 20</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">F Statistic</td><td class="font-bold text-brand-400">9.783</td></tr>
+                    <tr><td class="py-2 px-3 font-sans">Sig. (p-value)</td><td class="font-bold text-emerald-400">.000 (p < .001)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Բազմակի գծային ռեգրեսիոն մոդելով (ENTER մեթոդ) գնահատվել է, թե որքանով են կանաչ էներգիայի մասնաբաժինը, ժամանակային միտումը և տնային տնտեսությունների սպառումը միասին բացատրում էներգահամակարգի առևտրային եկամտի տատանումները (H3 վարկած):</p>
+          <p>Բազմակի կորելյացիայի գործակիցը R = 0.771 է, որոշման գործակիցը R² = 0.595, ուղղված R² = 0.534: Սա նշանակում է, որ երեք անկախ փոփոխականները միասին բացատրում են առևտրային եկամտի դիսպերսիայի 59.5%-ը:</p>
+          <p>ANOVA աղյուսակի համաձայն՝ F(3; 20) = 9.783, p < 0.001, ուստի մոդելն ամբողջությամբ վիճակագրորեն բարձր նշանակալիություն ունի:</p>
+        `
+      },
+
+      // SLIDE 13
+      {
+        id: 13,
+        title: "ԱՂՅՈՒՍԱԿ 9․ ՌԵԳՐԵՍԻՈՆ ԳՈՐԾԱԿԻՑՆԵՐ ԵՎ ԲԱԶՄԱԿՈԼԻՆԵԱՐՈՒԹՅՈՒՆ",
+        subtitle: "Coefficients (Unstandardized B, Standardized Beta, t, Sig, Collinearity Tolerance & VIF)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="text-xs text-brand-400 uppercase bg-slate-800 border-b border-slate-700">
+                  <tr>
+                    <th class="py-2.5 px-3">Փոփոխական</th>
+                    <th class="py-2.5 px-3">B</th>
+                    <th class="py-2.5 px-3">Std. Error</th>
+                    <th class="py-2.5 px-3">Beta (β)</th>
+                    <th class="py-2.5 px-3">t</th>
+                    <th class="py-2.5 px-3">Sig. (p)</th>
+                    <th class="py-2.5 px-3">Tolerance</th>
+                    <th class="py-2.5 px-3">VIF</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60 font-mono">
+                  <tr>
+                    <td class="font-sans font-bold text-slate-100">(Constant)</td>
+                    <td>28211.748</td>
+                    <td>9144.880</td>
+                    <td>-</td>
+                    <td>3.085</td>
+                    <td class="text-emerald-400 font-bold">.006</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-100">Green_Share_Pct</td>
+                    <td class="text-rose-400">-149.465</td>
+                    <td>137.854</td>
+                    <td class="text-rose-400">-.273</td>
+                    <td>-1.084</td>
+                    <td class="text-amber-400">.291</td>
+                    <td>.320</td>
+                    <td class="text-emerald-400 font-bold">3.124</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-100">Time_Index</td>
+                    <td class="text-rose-400">-363.384</td>
+                    <td>178.375</td>
+                    <td class="text-rose-400">-.470</td>
+                    <td>-2.037</td>
+                    <td class="text-emerald-400 font-bold">.055</td>
+                    <td>.380</td>
+                    <td class="text-emerald-400 font-bold">2.629</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-bold text-slate-100">Residential_Consumption</td>
+                    <td class="text-emerald-400">28.727</td>
+                    <td>15.666</td>
+                    <td class="text-emerald-400">.413</td>
+                    <td>1.834</td>
+                    <td class="text-emerald-400 font-bold">.082</td>
+                    <td>.399</td>
+                    <td class="text-emerald-400 font-bold">2.507</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-xs text-slate-300">
+              <i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> <b>Բազմակոլինեարություն․</b> Tolerance արժեքները 0.320–0.399 են, իսկ VIF-ը՝ 2.507–3.124 (VIF < 5), ինչը փաստում է բազմակոլինեարության բացակայությունը:
+            </p>
+          </div>
+        `,
+        notes: `
+          <p>Աղյուսակ 9-ում ներկայացված են առանձին ռեգրեսիոն գործակիցները:</p>
+          <p>Կանաչ էներգիայի մասնաբաժնի չստանդարտացված գործակիցը B = -149.465 է (Beta = -0.273, p = 0.291), ինչը 5% նշանակալիության մակարդակում վիճակագրորեն նշանակալի չէ:</p>
+          <p>Ժամանակային միտման գործակիցը B = -363.384 է (p = 0.055) և գտնվում է 5% նշանակալիության սահմանագծին: Տնային սպառման գործակիցը դրական է (B = 28.727, p = 0.082):</p>
+          <p>Այսպիսով, թեև պարզ կորելյացիան ուժեղ էր (r = -0.710), բազմակի մոդելում, երբ հաշվի են առնվում ժամանակը և սպառումը, կանաչ մասնաբաժնի «մաքուր» առանձին ազդեցությունը չի հաստատվում: H3 վարկածը հաստատվում է մոդելի ընդհանուր մակարդակում (F-test), սակայն ոչ առանձին գործակիցների մակարդակում:</p>
+        `
+      },
+
+      // SLIDE 14
+      {
+        id: 14,
+        title: "ԱՂՅՈՒՍԱԿ 10 & 11․ ԲԱԶՄԱԿՈԼԻՆԵԱՐՈՒԹՅԱՆ ԱԽՏՈՐՈՇՈՒՄ ԵՎ ՄՆԱՑՈՐԴՆԵՐ",
+        subtitle: "Collinearity Diagnostics (Table 10) & Residuals Statistics (Table 11)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <div class="p-2.5 bg-slate-800 font-bold text-xs text-brand-400 border-b border-slate-700">Collinearity Diagnostics (Table 10)</div>
+                <table class="w-full text-xs text-left text-slate-200 font-mono">
+                  <thead class="bg-slate-900 text-[10px] text-slate-400">
+                    <tr><th>Dim</th><th>Eigenvalue</th><th>Condition Index</th></tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                    <tr><td>1</td><td>3.686</td><td>1.000</td></tr>
+                    <tr><td>2</td><td>.196</td><td>4.338</td></tr>
+                    <tr><td>3</td><td>.114</td><td>5.679</td></tr>
+                    <tr><td class="text-amber-400">4</td><td>.004</td><td class="text-amber-400 font-bold">32.444</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <div class="p-2.5 bg-slate-800 font-bold text-xs text-brand-400 border-b border-slate-700">Residuals Statistics (Table 11)</div>
+                <table class="w-full text-xs text-left text-slate-200 font-mono">
+                  <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                    <tr><td class="font-sans">Std. Predicted Value</td><td>Min: -2.007 | Max: 1.587</td></tr>
+                    <tr><td class="font-sans">Std. Residual</td><td>Min: -1.427 | Max: 2.342</td></tr>
+                    <tr><td class="font-sans">Residual Mean</td><td>.0000 (Std.Dev: 3478.86)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400">
+              Collinearity Diagnostics աղյուսակում վերջին (4-րդ) հարթության Condition Index-ը 32.444 է, որը գերազանցում է 30 շեմը. այն ցույց է տալիս կապ հաստատուն անդամի և չկենտրոնացված տնային սպառման գնահատականների միջև:
+            </p>
+          </div>
+        `,
+        notes: `
+          <p>Այս սլայդում ներկայացված են ռեգրեսիոն մոդելի ախտորոշման լրացուցիչ աղյուսակները:</p>
+          <p>Collinearity Diagnostics աղյուսակում 4-րդ հարթության Condition Index-ը կազմում է 32.444, ինչը պայմանավորված է չկենտրոնացված խոշոր թվային ցուցանիշներով, սակայն VIF ցուցանիշները հաստատում են, որ լուրջ կոլինեարություն չկա:</p>
+          <p>Մնացորդների վիճակագրության համաձայն (Աղյուսակ 11)՝ ստանդարտացված մնացորդները (Std. Residual) տատանվում են -1.427-ից +2.342 միջակայքում, այսինքն՝ ±3 սահմանից դուրս ընդգծված աննորմալ դիտարկումներ (outliers) չկան:</p>
+        `
+      },
+
+      // SLIDE 15
+      {
+        id: 15,
+        title: "ՆԿԱՐՆԵՐ 6 & 7․ MEANS PLOTS - ԵՌԱՄՍՅԱԿԱՅԻՆ ՄԻՋԻՆՆԵՐԻ ԳՐԱՖԻԿՆԵՐ",
+        subtitle: "Green Share Pct (%) & Total Renewable GWh Seasonal Trend Graphs",
+        type: "chart",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Chart 1: Green Share Pct (%) -->
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex flex-col justify-between">
+                <h5 class="text-xs font-bold text-brand-400 mb-2 flex items-center justify-between">
+                  <span>Նկար 6. Green Share Pct (%)</span>
+                  <span class="text-[10px] text-slate-400 font-mono">F = 6.167 (p = .004)</span>
+                </h5>
+                <svg viewBox="0 0 300 170" class="w-full h-44">
+                  <line x1="40" y1="140" x2="280" y2="140" stroke="#475569" stroke-width="1.5" />
+                  <line x1="40" y1="20" x2="40" y2="140" stroke="#475569" stroke-width="1.5" />
+                  
+                  <line x1="40" y1="110" x2="280" y2="110" stroke="#334155" stroke-dasharray="3" />
+                  <line x1="40" y1="65" x2="280" y2="65" stroke="#334155" stroke-dasharray="3" />
+                  <line x1="40" y1="20" x2="280" y2="20" stroke="#334155" stroke-dasharray="3" />
+
+                  <polyline points="60,115 130,30 200,90 260,95" fill="none" stroke="#10b981" stroke-width="3" />
+                  
+                  <circle cx="60" cy="115" r="5" fill="#10b981" />
+                  <circle cx="130" cy="30" r="5" fill="#10b981" />
+                  <circle cx="200" cy="90" r="5" fill="#10b981" />
+                  <circle cx="260" cy="95" r="5" fill="#10b981" />
+
+                  <text x="60" y="132" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q1 (10.7%)</text>
+                  <text x="130" y="20" fill="#34d399" font-size="10" font-weight="bold" text-anchor="middle">Q2 (29.4%)</text>
+                  <text x="200" y="82" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q3 (17.7%)</text>
+                  <text x="260" y="87" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q4 (16.5%)</text>
+
+                  <text x="160" y="158" fill="#94a3b8" font-size="10" text-anchor="middle">Quarter of the Year (1-4)</text>
+                </svg>
+                <p class="text-[11px] text-slate-300 mt-2 bg-slate-900/60 p-2 rounded border border-slate-800">
+                  <b class="text-emerald-400">Վիճակագրորեն նշանակալի (p = .004)․</b> Q2-ում կանաչ էներգիայի մասնաբաժինը հասնում է պիկային 29.35%-ի։
+                </p>
+              </div>
+
+              <!-- Chart 2: Total Renewable Output (GWh) -->
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 flex flex-col justify-between">
+                <h5 class="text-xs font-bold text-teal-400 mb-2 flex items-center justify-between">
+                  <span>Նկար 7. Total Renewable Output (GWh)</span>
+                  <span class="text-[10px] text-slate-400 font-mono">F = 2.379 (p = .100)</span>
+                </h5>
+                <svg viewBox="0 0 300 170" class="w-full h-44">
+                  <line x1="40" y1="140" x2="280" y2="140" stroke="#475569" stroke-width="1.5" />
+                  <line x1="40" y1="20" x2="40" y2="140" stroke="#475569" stroke-width="1.5" />
+                  
+                  <line x1="40" y1="110" x2="280" y2="110" stroke="#334155" stroke-dasharray="3" />
+                  <line x1="40" y1="65" x2="280" y2="65" stroke="#334155" stroke-dasharray="3" />
+                  <line x1="40" y1="20" x2="280" y2="20" stroke="#334155" stroke-dasharray="3" />
+
+                  <polyline points="60,118 130,28 200,82 260,74" fill="none" stroke="#2dd4bf" stroke-width="3" />
+                  
+                  <circle cx="60" cy="118" r="5" fill="#2dd4bf" />
+                  <circle cx="130" cy="28" r="5" fill="#2dd4bf" />
+                  <circle cx="200" cy="82" r="5" fill="#2dd4bf" />
+                  <circle cx="260" cy="74" r="5" fill="#2dd4bf" />
+
+                  <text x="60" y="132" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q1 (239.1)</text>
+                  <text x="130" y="18" fill="#2dd4bf" font-size="10" font-weight="bold" text-anchor="middle">Q2 (567.3)</text>
+                  <text x="200" y="74" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q3 (374.5)</text>
+                  <text x="260" y="66" fill="#e2e8f0" font-size="9" font-weight="bold" text-anchor="middle">Q4 (402.9)</text>
+
+                  <text x="160" y="158" fill="#94a3b8" font-size="10" text-anchor="middle">Quarter of the Year (1-4)</text>
+                </svg>
+                <p class="text-[11px] text-slate-300 mt-2 bg-slate-900/60 p-2 rounded border border-slate-800">
+                  <b class="text-amber-400">5% մակարդակում նշանակալի չէ (p = .100)․</b> Բացարձակ ծավալը Q2-ում 567.33 ԳՎտժ է, սակայն ներքին տատանումները մեծ են։
+                </p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-300">
+              <p class="font-bold text-white mb-1"><i class="fa-solid fa-cloud-sun text-amber-400 mr-1.5"></i> Սեզոնայնության Եզրակացություն․</p>
+              <p>Means Plot գրաֆիկներն ակնհայտ են դարձնում գարնանային (Q2) գագաթնակետը. Փոքր ՀԷԿ-երի ջրառատությունն ու արևային ինտենսիվ ճառագայթումը 2-րդ եռամսյակում կանաչ մասնաբաժինը հասցնում են առավելագույնի, իսկ 1-ին եռամսյակում ատոմային և ջերմային կայաններն ապահովում են հիմնական բեռը:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Means Plot գրաֆիկները պատկերավոր ցույց են տալիս կանաչ էներգիայի սեզոնային տատանումները:</p>
+          <p>Առաջին գրաֆիկում պատկերված է կանաչ էներգիայի մասնաբաժնի միջին արժեքների դինամիկան, որտեղ 2-րդ եռամսյակի միջինը կազմում է 29.35%, 1-ինում՝ 10.69%, 3-րդում՝ 17.74%, իսկ 4-րդում՝ 16.50% (F = 6.167, p = 0.004):</p>
+          <p>Երկրորդ գրաֆիկում ներկայացված է վերականգնվող էներգիայի ընդհանուր արտադրության բացարձակ ծավալը (ԳՎտժ). 2-րդ եռամսյակում այն միջինում 567.33 ԳՎտժ է, 1-ինում՝ 239.15 ԳՎտժ, 3-րդում՝ 374.54 ԳՎտժ, իսկ 4-րդում՝ 402.85 ԳՎտժ (F = 2.379, p = 0.100):</p>
+          <p>2-րդ եռամսյակում արձանագրվող պիկային աճը պայմանավորված է գարնանային ձնհալքով, ինչն ապահովում է փոքր ՀԷԿ-երի առավելագույն արտադրողականությունը, և արևային ճառագայթման տևողության աճով:</p>
+        `
+      },
+
+      // SLIDE 16
+      {
+        id: 16,
+        title: "5․4. ՄՈԴԵԼ 4․ ՍԵԶՈՆԱՅՆՈՒԹՅԱՆ ՍՏՈՒԳՈՒՄ (ONE-WAY ANOVA)",
+        subtitle: "Աղյուսակ 12, 13 (Descriptives) և Աղյուսակ 14 (Levene Test of Homogeneity)",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <div class="p-2 bg-slate-800 text-xs font-bold text-brand-400">Green Share Pct (%) - Եռամսյակային Միջիններ (Table 12)</div>
+              <table class="w-full text-xs text-left text-slate-200 font-mono">
+                <thead class="bg-slate-900 text-slate-400">
+                  <tr><th>Quarter</th><th>N</th><th>Mean (%)</th><th>Std. Deviation</th><th>Min - Max</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                  <tr><td>Q1 (Հունվ-Մարտ)</td><td>6</td><td class="text-rose-400 font-bold">10.69%</td><td>3.490</td><td>7.10 - 16.53</td></tr>
+                  <tr class="bg-brand-500/10"><td>Q2 (Ապր-Հունիս)</td><td>6</td><td class="text-emerald-400 font-bold">29.35%</td><td>11.332</td><td>8.89 - 40.65</td></tr>
+                  <tr><td>Q3 (Հուլ-Սեպտ)</td><td>6</td><td>17.74%</td><td>6.542</td><td>10.75 - 27.25</td></tr>
+                  <tr><td>Q4 (Հոկտ-Դեկտ)</td><td>6</td><td>16.50%</td><td>7.370</td><td>7.48 - 27.61</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs flex items-center justify-between">
+              <div>
+                <span class="font-bold text-white block">Դիսպերսիաների Համասեռության Թեստ (Levene Test - Table 14)</span>
+                <span class="text-slate-400">Green_Share_Pct Levene Stat = 1.589 (df1=3, df2=20, <b class="text-emerald-400">Sig. = .223</b>)</span>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold">p > .05 (Համասեռ)</span>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>4-րդ մոդելով ստուգվել է կանաչ էներգիայի սեզոնայնությունը (H4 վարկած):</p>
+          <p>Նախքան ANOVA թեստը ստուգվել է դիսպերսիաների համասեռությունը (Levene թեստ): Levene թեստի արդյունքը p = 0.223 > 0.05 է, ինչը հաստատում է դիսպերսիաների հավասարությունը և դասական ANOVA-ի կիրառման թույլտվությունը:</p>
+          <p>Աղյուսակ 12-ից երևում է, որ կանաչ էներգիայի միջին մասնաբաժինն ամենաբարձրն է 2-րդ եռամսյակում (29.35%), իսկ ամենացածրը՝ 1-ինում (10.69%):</p>
+        `
+      },
+
+      // SLIDE 17
+      {
+        id: 17,
+        title: "ԱՂՅՈՒՍԱԿ 15 & 16․ ANOVA ԱՐԴՅՈՒՆՔՆԵՐԸ ԵՎ TUKEY HSD POST HOC",
+        subtitle: "ANOVA F-test for Seasonality & Tukey Multiple Comparisons",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200 font-mono">
+                <thead class="bg-slate-800 text-brand-400 uppercase">
+                  <tr><th>Փոփոխական</th><th>Sum of Sq</th><th>df</th><th>Mean Sq</th><th>F</th><th>Sig. (p)</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+                  <tr class="bg-brand-500/10">
+                    <td class="font-sans font-bold text-brand-300">Green_Share_Pct</td>
+                    <td>1099.378</td>
+                    <td>3 / 20</td>
+                    <td>366.459</td>
+                    <td class="font-bold text-brand-400">6.167</td>
+                    <td class="font-bold text-emerald-400">.004 (p < .01)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-sans font-semibold">Total_Renewable_GWh</td>
+                    <td>326777.034</td>
+                    <td>3 / 20</td>
+                    <td>108925.678</td>
+                    <td>2.379</td>
+                    <td class="text-amber-400">.100 (p > .05)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs space-y-2">
+              <h5 class="font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-code-compare text-brand-400"></i>
+                <span>Tukey HSD Զույգային Համեմատություններ (Table 16)</span>
+              </h5>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300">
+                <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="font-bold text-emerald-400">Q2 vs Q1:</span> Mean Diff = +18.66% (<b class="text-emerald-400">p = .002</b>) - Նշանակալի
+                </div>
+                <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+                  <span class="font-bold text-emerald-400">Q2 vs Q4:</span> Mean Diff = +12.85% (<b class="text-emerald-400">p = .042</b>) - Նշանակալի
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>ANOVA աղյուսակի համաձայն (Աղյուսակ 15)՝ կանաչ էներգիայի մասնաբաժնի եռամսյակային տարբերությունները վիճակագրորեն բարձր նշանակալիություն ունեն. F(3; 20) = 6.167, p = 0.004 < 0.01:</p>
+          <p>Tukey HSD post hoc զույգային համեմատությունները (Աղյուսակ 16) ցույց են տալիս, որ 2-րդ եռամսյակի միջին մասնաբաժինը նշանակալիորեն բարձր է 1-ին եռամսյակից (տարբերությունը՝ +18.66%, p = 0.002) և 4-րդ եռամսյակից (+12.85%, p = 0.042):</p>
+          <p>Սակայն վերականգնվող էներգիայի բացարձակ ծավալի համար (Total_Renewable_GWh) F = 2.379, p = 0.100 > 0.05, այսինքն՝ բացարձակ ծավալի սեզոնայնությունը 5% մակարդակում չի հաստատվում:</p>
+        `
+      },
+
+      // SLIDE 18
+      {
+        id: 18,
+        title: "ՆԿԱՐՆԵՐ 6 & 7․ MEANS PLOTS - ԵՌԱՄՍՅԱԿԱՅԻՆ ՄԻՋԻՆՆԵՐԻ ԳՐԱՖԻԿՆԵՐ",
+        subtitle: "Green Share Pct & Total Renewable GWh Seasonal Trend Graphs",
+        type: "chart",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+              <svg viewBox="0 0 600 200" class="w-full h-48">
+                <line x1="60" y1="160" x2="540" y2="160" stroke="#475569" stroke-width="1.5" />
+                <line x1="60" y1="20" x2="60" y2="160" stroke="#475569" stroke-width="1.5" />
+
+                <polyline points="100,135 230,35 360,95 490,105" fill="none" stroke="#10b981" stroke-width="3.5" />
+                
+                <circle cx="100" cy="135" r="6" fill="#10b981" />
+                <circle cx="230" cy="35" r="6" fill="#10b981" />
+                <circle cx="360" cy="95" r="6" fill="#10b981" />
+                <circle cx="490" cy="105" r="6" fill="#10b981" />
+
+                <text x="100" y="152" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">Q1 (10.69%)</text>
+                <text x="230" y="20" fill="#34d399" font-size="12" font-weight="bold" text-anchor="middle">Q2 PEAK (29.35%)</text>
+                <text x="360" y="85" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">Q3 (17.74%)</text>
+                <text x="490" y="95" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">Q4 (16.50%)</text>
+              </svg>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-300">
+              <p class="font-bold text-white mb-1"><i class="fa-solid fa-cloud-sun text-amber-400 mr-1.5"></i> Սեզոնայնության Եզրակացություն․</p>
+              <p>Means Plot գրաֆիկն ակնհայտ է դարձնում գարնանային (Q2) գագաթնակետը. Փոքր ՀԷԿ-երի ջրառատությունն ու արևային ինտենսիվ ճառագայթումը 2-րդ եռամսյակում կանաչ մասնաբաժինը հասցնում են առավելագույնի, իսկ 1-ին եռամսյակում ատոմային և ջերմային կայաններն ապահովում են հիմնական բեռը:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Means Plot գրաֆիկները պատկերավոր ցույց են տալիս կանաչ էներգիայի սեզոնային տատանումները:</p>
+          <p>2-րդ եռամսյակում արձանագրվող պիկային աճը պայմանավորված է գարնանային ձնհալքով, ինչն ապահովում է փոքր ՀԷԿ-երի առավելագույն արտադրողականությունը, և արևային ճառագայթման տևողության աճով:</p>
+          <p>Այս սեզոնայնության հաշվառումը չափազանց կարևոր է էներգահամակարգի օպերատորի համար՝ 2-րդ եռամսյակում ջերմային կայանների թանկարժեք արտադրությունը պլանավորված նվազեցնելու նպատակով:</p>
+        `
+      },
+
+      // SLIDE 19
+      {
+        id: 19,
+        title: "5․5. ՄՈԴԵԼ 5․ ARIMA(1,1,1) ԺԱՄԱՆԱԿԱՅԻՆ ՇԱՐՔԵՐԻ ԿԱՆԽԱՏԵՍՈՒՄ",
+        subtitle: "TSMODEL parameter estimates, Stationary R² & Ljung-Box Q Test",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+              <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                <span class="text-xs text-slate-400 block font-semibold">Stationary R²</span>
+                <span class="text-2xl font-black text-brand-400">0.520</span>
+                <span class="text-[10px] text-slate-400 block">52.0% դիսպերսիայի բացատրում</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                <span class="text-xs text-slate-400 block font-semibold">Ljung-Box Q Test</span>
+                <span class="text-2xl font-black text-emerald-400">p = .537</span>
+                <span class="text-[10px] text-slate-400 block">Q = 14.833 (Ավտոկորելյացիա չկա)</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                <span class="text-xs text-slate-400 block font-semibold">MA(1) Parameter</span>
+                <span class="text-2xl font-black text-teal-400">.485</span>
+                <span class="text-[10px] text-slate-400 block">t = 1.782, p = .089</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-200 space-y-1">
+              <p class="font-bold text-white"><i class="fa-solid fa-square-poll-vertical text-brand-400 mr-1.5"></i> ARIMA(1,1,1) Մոդելի Ադեկվատությունը․</p>
+              <p>Stationary R² = 0.520 ցույց է տալիս, որ մոդելը բացատրում է տարբերակված շարքի տատանումների 52.0%-ը: Ljung-Box Q թեստի p = 0.537 > 0.05 արժեքը փաստում է մնացորդներում ավտոկորելյացիայի բացակայությունը, ինչը հաստատում է մոդելի ճշգրտությունը:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>5-րդ մոդելով իրականացվել է վերականգնվող էներգիայի արտադրության (Total_Renewable_GWh) ARIMA(1,1,1) ժամանակային շարքերի մոդելավորում (H5 վարկած):</p>
+          <p>Առաջին կարգի տարբերակումը (d = 1) կիրառվել է շարքի աճող տրենդը ստացիոնարացնելու համար:</p>
+          <p>Stationary R² = 0.520 ցույց է տալիս բավարար բացատրողական ուժ: Կարևորագույն ախտորոշիչ ցուցանիշը Ljung-Box Q թեստն է (Q = 14.833, p = 0.537 > 0.05), որը հաստատում է, որ մոդելի մնացորդներն սպիտակ աղմուկ են և ավտոկորելացված չեն, հետևաբար մոդելն ադեկվատ է կանխատեսումների համար:</p>
+        `
+      },
+
+      // SLIDE 20
+      {
+        id: 20,
+        title: "ՆԿԱՐ 8․ ARIMA(1,1,1) 2026 Թ․ ԵՌԱՄՍՅԱԿԱՅԻՆ ԿԱՆԽԱՏԵՍՈՒՄՆԵՐԸ",
+        subtitle: "Observed vs Forecasted Renewable Energy Output in GWh",
+        type: "chart",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
+              <h5 class="text-xs font-bold text-brand-400 mb-2">Total Renewable Energy Output (GWh) - ARIMA(1,1,1) 2026 Forecast</h5>
+              <svg viewBox="0 0 600 160" class="w-full h-40">
+                <line x1="40" y1="130" x2="560" y2="130" stroke="#475569" stroke-width="1.5" />
+                <polyline points="50,110 90,80 130,100 170,90 210,60 250,75 290,45 330,65 370,35 410,50 450,25" fill="none" stroke="#38bdf8" stroke-width="2.5" />
+                <polyline points="450,25 480,22 510,20 540,18" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="4" />
+                <circle cx="540" cy="18" r="4" fill="#10b981" />
+                <text x="540" y="38" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">2026: ~680–730 GWh</text>
+              </svg>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs text-slate-200">
+              <p class="font-bold text-white mb-1"><i class="fa-solid fa-chart-line text-emerald-400 mr-1.5"></i> Կանխատեսման Արդյունքները․</p>
+              <p>2026 թվականի 4 եռամսյակների համար կանխատեսված արժեքները պահպանում են կայուն աճող մակարդակ՝ 680–730 ԳՎտժ միջակայքում, ինչը հաստատում է կանաչ էներգետիկայի ռազմավարական աճի շարունակականությունը ՀՀ-ում:</p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>ARIMA(1,1,1) մոդելով իրականացված կանխատեսումը 2026 թվականի համար ցույց է տալիս, որ վերականգնվող էներգիայի արտադրությունը կպահպանի իր կայուն աճող միտումը:</p>
+          <p>2026 թվականի եռամսյակային կանխատեսված ծավալները տատանվում են 680-ից 730 ԳՎտժ միջակայքում:</p>
+          <p>Այս կանխատեսումը հաստատում է H5 վարկածը և վկայում, որ կանաչ նորարարությունների ներդրման տեմպերը Հայաստանում ունեն իներցիոն կայուն դրական դինամիկա:</p>
+        `
+      },
+
+      // SLIDE 21
+      {
+        id: 21,
+        title: "6․ ՀԵՏԱԶՈՏՈՒԹՅԱՆ ՎԱՐԿԱԾՆԵՐԻ ՍՏՈՒԳՄԱՆ ԱՄՓՈՓՈՒՄ",
+        subtitle: "Աղյուսակ 20. Հետազոտության 5 վարկածների վերջնական որոշումները",
+        type: "table",
+        content: `
+          <div class="w-full max-w-5xl mx-auto slide-enter">
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+              <table class="w-full text-xs text-left text-slate-200">
+                <thead class="bg-slate-800 text-brand-400 uppercase">
+                  <tr><th>Վարկած</th><th>Մոդել</th><th>Հիմնական Արդյունք</th><th>Որոշում</th></tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 bg-slate-900/60 font-mono">
+                  <tr>
+                    <td class="font-bold text-brand-300">H1</td>
+                    <td class="font-sans">Պիրսոնի կորելյացիա</td>
+                    <td>r = -.710; p < .001; N = 24</td>
+                    <td class="text-emerald-400 font-bold">Հաստատվում է (Բացասական կապ)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-300">H2</td>
+                    <td class="font-sans">Պիրսոնի կորելյացիա</td>
+                    <td>r = .512; p = .011; N = 24</td>
+                    <td class="text-emerald-400 font-bold">Հաստատվում է (Աճող տրենդ)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-300">H3</td>
+                    <td class="font-sans">Բազմակի ռեգրեսիա</td>
+                    <td>R² = .595; F = 9.783 (p < .001)</td>
+                    <td class="text-teal-300 font-bold">Մասամբ հաստատվում է (Մոդելը՝ այո)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-300">H4</td>
+                    <td class="font-sans">One-Way ANOVA</td>
+                    <td>Share: F = 6.167 (p = .004)</td>
+                    <td class="text-teal-300 font-bold">Մասամբ հաստատվում է (Մասնաբաժնով՝ այո)</td>
+                  </tr>
+                  <tr>
+                    <td class="font-bold text-brand-300">H5</td>
+                    <td class="font-sans">ARIMA(1,1,1)</td>
+                    <td>Stat R² = .520; Q = 14.833 (p = .537)</td>
+                    <td class="text-emerald-400 font-bold">Հաստատվում է (Ճշգրիտ կանխատեսում)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Աղյուսակ 20-ում ամփոփված են հետազոտության 5 գիտական վարկածների ստուգման արդյունքները:</p>
+          <p>H1, H2 և H5 վարկածներն ամբողջությամբ հաստատվել են:</p>
+          <p>H3 և H4 վարկածները հաստատվել են մասամբ. H3-ի դեպքում ռեգրեսիոն մոդելն ամբողջությամբ նշանակալի է (F = 9.783, p < 0.001), սակայն առանձին Beta գործակիցները 5% մակարդակում չեն հասնում նշանակալիության: H4-ի դեպքում սեզոնայնությունը նշանակալի է կանաչ էներգիայի մասնաբաժնի համար (p = 0.004), սակայն ոչ բացարձակ ծավալի համար:</p>
+        `
+      },
+
+      // SLIDE 22
+      {
+        id: 22,
+        title: "7․ ԸՆԴՀԱՆՈՒՐ ԵԶՐԱԿԱՑՈՒԹՅՈՒՆՆԵՐ ԵՎ ԱՌԱՋԱՐԿՈՒԹՅՈՒՆՆԵՐ",
+        subtitle: "Քաղաքականության մշակման և կառավարչական հիմնական հետևությունները",
+        type: "content",
+        content: `
+          <div class="w-full max-w-5xl mx-auto space-y-4 slide-enter">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
+                <h5 class="font-bold text-brand-400 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-square-check"></i> Հիմնական Եզրահանգումներ
+                </h5>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  1. Կանաչ էներգիայի մասնաբաժինը 2020-2025թթ. աճել է 7.10%-ից մինչև ռեկորդային 40.65% (միջինը՝ 18.57%):<br>
+                  2. Առկա է ուժեղ բացասական կապ եկամուտների հետ (r = -0.710) Net-metering-ի պատճառով:<br>
+                  3. Արտահայտված է Q2 սեզոնային պիկը (29.35%):
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-2">
+                <h5 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-sliders"></i> Կառավարչական Առաջարկներ
+                </h5>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  1. Մշակել էներգիայի կուտակիչների (Battery Storage) պետական աջակցման ծրագրեր՝ Q2 սեզոնային ավելցուկը Q1/Q4 փոխանցելու համար:<br>
+                  2. Վերանայել Net-metering սակագնային մոդելները՝ ցանցի ենթակառուցվածքային ծախսերը արդարացի բաշխելու նպատակով:
+                </p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-gradient-to-r from-brand-900/50 to-slate-800 border border-brand-500/30 text-center">
+              <p class="text-xs font-bold text-brand-300">
+                Շնորհակալություն ուշադրության համար:
+              </p>
+            </div>
+          </div>
+        `,
+        notes: `
+          <p>Ամփոփելով հետազոտությունը՝ կարող ենք արձանագրել, որ կանաչ նորարարությունների ներդրումը Հայաստանում ապահովել է էներգետիկ անկախության և բնապահպանական արդյունավետության էական աճ:</p>
+          <p>Սակայն, Net-metering համակարգերի արագ աճը նվազեցնում է ավանդական էներգահամակարգի առևտրային եկամուտները:</p>
+          <p>Քաղաքականություն մշակողներին առաջարկվում է ներդնել էներգիայի կուտակիչ (Battery Storage) համակարգեր և վերանայել սակագնային կարգավորումները՝ ապահովելով էներգահամակարգի ֆինանսական կայունությունը:</p>
+        `
+      }
+    ];
+
+    // RENDER SLIDE FUNCTION
+    function renderSlide(index) {
+      const slide = slidesData.find(s => s.id === index);
+      if (!slide) return;
+
+      const viewport = document.getElementById('slide-viewport');
+      
+      viewport.innerHTML = `
+        <div class="w-full flex flex-col justify-between min-h-[78vh] p-4 sm:p-8 rounded-3xl glass-panel shadow-2xl relative overflow-hidden transition-all duration-300 border border-slate-700/50">
+          <!-- Slide Header -->
+          <div class="mb-3">
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+              <span class="font-mono text-brand-400 font-bold uppercase tracking-wider">Էջ ${slide.id} / ${totalSlides}</span>
+              <span class="bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700 font-semibold text-[10px]">${slide.type.toUpperCase()}</span>
+            </div>
+            <h2 class="text-lg sm:text-2xl font-black text-white tracking-tight leading-snug">${slide.title}</h2>
+            ${slide.subtitle ? `<p class="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">${slide.subtitle}</p>` : ''}
+          </div>
+
+          <!-- Slide Content -->
+          <div class="flex-1 flex items-center justify-center py-2">
+            ${slide.content}
+          </div>
+
+          <!-- Slide Footer -->
+          <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+            <span>ՀՊՏՀ ԳՄ - 2026 | Կանաչ Նորարարություններ</span>
+            <button onclick="toggleNotesDrawer()" class="text-brand-400 hover:underline flex items-center gap-1 font-semibold">
+              <i class="fa-solid fa-comment-dots"></i>
+              <span>Զեկույցի Տեքստ</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Update Nav Indicators
+      document.getElementById('current-slide-num').innerText = slide.id;
+      document.getElementById('mobile-slide-num').innerText = slide.id;
+      document.getElementById('notes-slide-num').innerText = slide.id;
+      
+      const progressPct = (slide.id / totalSlides) * 100;
+      document.getElementById('top-progress-bar').style.width = `${progressPct}%`;
+
+      document.getElementById('prev-btn').disabled = (slide.id === 1);
+      document.getElementById('next-btn').disabled = (slide.id === totalSlides);
+
+      // Load Speaker Notes Text
+      document.getElementById('speaker-notes-content').innerHTML = slide.notes;
+    }
+
+    // NAVIGATION
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function goToSlide(num) {
+      currentSlide = num;
+      renderSlide(currentSlide);
+      closeSlideGrid();
+    }
+
+    // KEYBOARD CONTROLS
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'Escape') {
+        closeSlideGrid();
+        if (isNotesOpen) toggleNotesDrawer();
+      }
+    });
+
+    // DRAWER CONTROLS
+    function toggleNotesDrawer() {
+      const drawer = document.getElementById('speaker-notes-drawer');
+      isNotesOpen = !isNotesOpen;
+      if (isNotesOpen) {
+        drawer.classList.remove('translate-x-full');
+      } else {
+        drawer.classList.add('translate-x-full');
+      }
+    }
+
+    function copyNotesToClipboard() {
+      const notesText = document.getElementById('speaker-notes-content').innerText;
+      navigator.clipboard.writeText(notesText).then(() => {
+        alert('Զեկույցի տեքստը պատճենվեց։');
+      });
+    }
+
+    // SLIDE GRID PICKER
+    function toggleSlideGrid() {
+      const modal = document.getElementById('slide-grid-modal');
+      if (modal.classList.contains('hidden')) {
+        renderSlideGrid();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function closeSlideGrid() {
+      document.getElementById('slide-grid-modal').classList.add('hidden');
+    }
+
+    function renderSlideGrid() {
+      const container = document.getElementById('slide-grid-container');
+      container.innerHTML = slidesData.map(s => `
+        <button onclick="goToSlide(${s.id})" class="p-3 rounded-xl border text-left transition-all ${s.id === currentSlide ? 'bg-brand-500/20 border-brand-500 text-brand-300 font-bold' : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:border-slate-500'}">
+          <span class="text-[10px] font-mono text-slate-400 block mb-1">Էջ ${s.id}</span>
+          <p class="font-bold text-xs truncate text-white">${s.title}</p>
+        </button>
+      `).join('');
+    }
+
+    // THEME SWITCHER
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    }
+
+    // INIT
+    window.onload = function() {
+      renderSlide(currentSlide);
+    };
+  </script>
+</body>
+</html>
